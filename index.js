@@ -41,6 +41,7 @@ async function run() {
         // await client.connect();
 
         const foodCollection = client.db('saveFoodDB').collection('foods');
+        const requestedFoodCollection = client.db('saveFoodDB').collection('requestedFoods');
 
         // auth related api 
         app.post('/jwt', async (req, res) => {
@@ -80,6 +81,17 @@ async function run() {
         app.post('/add-food', async (req, res) => {
             const newFood = req.body;
             const result = await foodCollection.insertOne(newFood);
+            res.send(result);
+        })
+
+        app.post('/request-food', async (req, res) => {
+            const requestFood = req.body;
+            const result = await requestedFoodCollection.insertOne(requestFood);
+            res.send(result);
+        })
+
+        app.delete('/delete-food/:id', async (req, res) => {
+            const result = await foodCollection.deleteOne({ _id: new ObjectId(req.params.id) })
             res.send(result);
         })
 
