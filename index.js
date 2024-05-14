@@ -102,6 +102,11 @@ async function run() {
             res.send(result);
         })
 
+        app.delete("/delete-food/:id", async (req, res) => {
+            const result = await foodCollection.deleteOne({ _id: new ObjectId(req.params.id) })
+            res.send(result);
+        })
+
         app.delete('/delete-food/:id', async (req, res) => {
             const result = await foodCollection.deleteOne({ _id: new ObjectId(req.params.id) })
             res.send(result);
