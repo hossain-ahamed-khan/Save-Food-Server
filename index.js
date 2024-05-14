@@ -84,6 +84,18 @@ async function run() {
             res.send(result);
         })
 
+        app.get("/my-foods/:email", async (req, res) => {
+            console.log(req.params.email);
+            const result = await foodCollection.find({ donator_email: req.params.email }).toArray();
+            res.send(result);
+        })
+
+        app.get('/requested-foods', async (req, res) => {
+            const cursor = requestedFoodCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
         app.post('/request-food', async (req, res) => {
             const requestFood = req.body;
             const result = await requestedFoodCollection.insertOne(requestFood);
