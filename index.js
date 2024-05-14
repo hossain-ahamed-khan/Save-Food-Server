@@ -102,6 +102,26 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/update-food/:id', async (req, res) => {
+            const query = { _id: new ObjectId(req.params.id) };
+            const data = {
+                $set: {
+                    food_name: req.body.food_name,
+                    food_img: req.body.food_img,
+                    donator_name: req.body.donator_name,
+                    donator_img: req.body.donator_img,
+                    food_quantity: req.body.food_quantity,
+                    pickup_location: req.body.pickup_location,
+                    expire_date: req.body.expire_date,
+                    additional_notes: req.body.additional_notes,
+                    donator_email: req.body.donator_email,
+                    food_status: req.body.food_status,
+                }
+            }
+            const result = await foodCollection.updateOne(query, data);
+            res.send(result);
+        })
+
         app.delete("/delete-food/:id", async (req, res) => {
             const result = await foodCollection.deleteOne({ _id: new ObjectId(req.params.id) })
             res.send(result);
