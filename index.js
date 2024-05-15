@@ -84,14 +84,13 @@ async function run() {
             res.send(result);
         })
 
-        app.get("/my-foods/:email", async (req, res) => {
-            console.log(req.params.email);
+        app.get('/my-foods/:email', async (req, res) => {
             const result = await foodCollection.find({ donator_email: req.params.email }).toArray();
             res.send(result);
         })
 
-        app.get('/requested-foods', async (req, res) => {
-            const cursor = requestedFoodCollection.find();
+        app.get('/requested-foods/:email', async (req, res) => {
+            const cursor = requestedFoodCollection.find({ user_email: req.params.email });
             const result = await cursor.toArray();
             res.send(result);
         })
