@@ -110,7 +110,10 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/requested-foods/:email', async (req, res) => {
+        app.get('/requested-foods/:email', verifyToken, async (req, res) => {
+            if (req.params.email !== req.user.email) {
+                return res.status(403).send({ message: 'forbidden access' })
+            }
             const cursor = requestedFoodCollection.find({ user_email: req.params.email });
             const result = await cursor.toArray();
             res.send(result);
